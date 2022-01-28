@@ -1,5 +1,3 @@
-temp/
-bin/
-obj/
 **/bin
 **/obj
+**/.vs

@@ -1,19 +1,27 @@
-using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Data;
+using FrwkQuickWait.Data.Context;
+using FrwkQuickWait.Domain.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Newtonsoft.Json;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-builder.Services.AddRepositories();
 builder.Services.AddServices();
-
 builder.Services.AddRepositories();
+builder.Services.AddHosted();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer($"Data Source=host.docker.internal, 1433;" +
+                $"Initial Catalog=DbAuthUser;" +
+                $"Persist Security Info=True;" +
+                $"User ID=sa;" +
+                $"Password=Pr0f!leUs3r"));
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 

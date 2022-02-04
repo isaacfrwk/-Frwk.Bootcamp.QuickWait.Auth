@@ -1,6 +1,7 @@
 ﻿using FrwkQuickWait.Data.Repositories;
 using FrwkQuickWait.Domain.Interfaces.Repositories;
 using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Service.Consumers;
 using FrwkQuickWait.Service.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,14 @@ namespace FrwkQuickWait.Data
             services
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<ITokenService, TokenService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHosted(this IServiceCollection services)
+        {
+            services
+                .AddHostedService<UserConsumer>();
 
             return services;
         }

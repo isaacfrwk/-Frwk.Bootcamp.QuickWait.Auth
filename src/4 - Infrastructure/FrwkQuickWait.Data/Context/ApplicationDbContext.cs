@@ -14,5 +14,6 @@ namespace FrwkQuickWait.Data.Context
         {
             builder.ApplyConfiguration(new UserMap());
         }
+
     }
 }

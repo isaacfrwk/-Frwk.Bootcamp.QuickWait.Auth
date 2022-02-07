@@ -29,7 +29,8 @@ namespace FrwkQuickWait.Data
         public static IServiceCollection AddHosted(this IServiceCollection services)
         {
             services
-                .AddHostedService<UserConsumer>();
+                .AddHostedService<UserConsumer>()
+                .AddHostedService<AuthConsumer>();
 
             return services;
         }

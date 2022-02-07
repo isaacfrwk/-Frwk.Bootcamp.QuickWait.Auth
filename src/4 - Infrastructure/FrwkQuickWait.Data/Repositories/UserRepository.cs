@@ -23,5 +23,25 @@ namespace FrwkQuickWait.Data.Repositories
 
             return query.ToList();
         }
+
+        public async Task<User> GetByCnpj(string password, string cnpj)
+        {
+            var query = from user in dbContext.Users
+                        where user.Password == password
+                           && user.CNPJ == cnpj
+                        select user;
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByCpf(string password, string cpf)
+        {
+            var query = from user in dbContext.Users
+                        where user.CPF == cpf
+                           && user.Password == password
+                        select user;
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

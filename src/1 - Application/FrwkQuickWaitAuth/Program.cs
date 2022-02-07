@@ -17,11 +17,11 @@ builder.Services.AddRepositories();
 builder.Services.AddHosted();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer($"Data Source=host.docker.internal, 1433;" +
-                $"Initial Catalog=DbAuthUser;" +
-                $"Persist Security Info=True;" +
-                $"User ID=sa;" +
-                $"Password=Pr0f!leUs3r"));
+                options.UseSqlServer(@"Data Source=frwkquickwait.database.windows.net;" +
+                                    $"Initial Catalog=DbAuthUser;" +
+                                    $"Persist Security Info=True;" +
+                                    $"User ID=frwkcosmos;" +
+                                    $"Password=Fr@m3w0rk"));
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 

@@ -29,7 +29,7 @@ namespace FrwkQuickWaitAuth.Controllers
             if (user == null)
                 return NotFound(new {message = "Não existe usuário com essas especificações!"});
 
-            var token = tokenService.GenerateToken(user);
+            var token = await tokenService.GenerateToken(user);
 
             return Ok(new { token } );
         }

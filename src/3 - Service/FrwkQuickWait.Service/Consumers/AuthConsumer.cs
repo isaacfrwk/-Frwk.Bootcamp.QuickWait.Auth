@@ -8,15 +8,15 @@ using Newtonsoft.Json;
 
 namespace FrwkQuickWait.Service.Consumers
 {
-    public class UserConsumer : BackgroundService
+    public class AuthConsumer : BackgroundService
     {
         private readonly IServiceProvider serviceProvider;
         private readonly string topicName;
         private readonly ConsumerConfig consumerConfig;
-        public UserConsumer(IServiceProvider serviceProvider)
+        public AuthConsumer(IServiceProvider serviceProvider)
         {
+            this.topicName = Topics.topicNameAuth;
             this.serviceProvider = serviceProvider;
-            this.topicName = Topics.topicNameUser;
 
             this.consumerConfig = new ConsumerConfig
             {
@@ -26,7 +26,7 @@ namespace FrwkQuickWait.Service.Consumers
                 SaslMechanism = SaslMechanism.ScramSha256,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 EnableSslCertificateVerification = false,
-                GroupId = $"{topicName}-group-0",
+                GroupId = $"{topicName}-group-1",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
         }
@@ -67,25 +67,14 @@ namespace FrwkQuickWait.Service.Consumers
             var mensagem = JsonConvert.DeserializeObject<MessageInput>(message.Message.Value);
 
             using var scope = serviceProvider.CreateScope();
-            var userService = scope.ServiceProvider.GetService<IUserService>();
+            var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
 
             switch (mensagem.Method)
             {
                 case MethodConstant.POST:
-                    await userService.Save(JsonConvert.DeserializeObject<User>(mensagem.Content));
-                    break;
-                case MethodConstant.PUT:
-                    userService.Update(JsonConvert.DeserializeObject<User>(mensagem.Content));
-                    break;
-                case MethodConstant.DELETE:
-                    userService.Delete(JsonConvert.DeserializeObject<User>(mensagem.Content));
-                    break;
-                case MethodConstant.DELETEMANY:
-                    userService.DeleteMany(JsonConvert.DeserializeObject<IEnumerable<User>>(mensagem.Content));
+                    await tokenService.GenerateToken(JsonConvert.DeserializeObject<User>(mensagem.Content));
                     break;
             }
         }
-
-
     }
 }

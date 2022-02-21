@@ -3,6 +3,7 @@ using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Domain.Interfaces.Repositories;
 using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Service.Validators;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,36 +15,25 @@ namespace FrwkQuickWait.Service.Services
     public class TokenService : ITokenService
     {
         private readonly IUserRepository userRepository;
-        private readonly string topicName;
-        private readonly ClientConfig cloudConfig;
-        public TokenService(IUserRepository userRepository)
+        private readonly IProduceService produceService;
+        
+        public TokenService(IUserRepository userRepository, IProduceService produceService)
         {
             this.userRepository = userRepository;
-            this.topicName = Topics.topicNameAuthResponse;
-
-            cloudConfig = new ClientConfig
-            {
-
-                 BootstrapServers = Settings.Kafkahost
-                //BootstrapServers = CloudKarafka.Brokers,
-                //SaslUsername = CloudKarafka.Username,
-                //SaslPassword = CloudKarafka.Password,
-                //SaslMechanism = SaslMechanism.ScramSha256,
-                //SecurityProtocol = SecurityProtocol.SaslSsl,
-                //EnableSslCertificateVerification = false
-            };
+            this.produceService = produceService;
         }
         public async Task<string> GenerateToken(User user)
         {
+            var userValidator = new UserValidator();
+            var validator = userValidator.Validate(user);
+
+            MessageInput message;
             string request;
-            User? response;
 
-            if (!string.IsNullOrEmpty(user.CNPJ))
-                response = await GetByCnpj(user.Password, user.CNPJ);
-            else
-                response = await GetByUserName(user.Password, user.Username);
+            if (!validator.IsValid)
+                message = new MessageInput(500, MethodConstant.POST, JsonConvert.SerializeObject(validator.Errors));
 
-            MessageInput? message;
+            var response = await GetByUserName(user.Password, user.Username);
 
             if (response == null)
             {
@@ -70,7 +60,7 @@ namespace FrwkQuickWait.Service.Services
                 message = new MessageInput(200, MethodConstant.POST, JsonConvert.SerializeObject(request));
             }
 
-            await Call(message);
+            await produceService.Call(message);
 
             return await Task.FromResult(request);
         }
@@ -80,20 +70,6 @@ namespace FrwkQuickWait.Service.Services
 
         private async Task<User> GetByUserName(string password, string username)
             => await userRepository.Get(username, password);
-
-
-        protected async Task Call(MessageInput message)
-        {
-            var stringfiedMessage = JsonConvert.SerializeObject(message);
-
-            using var producer = new ProducerBuilder<string, string>(cloudConfig).Build();
-
-            var key = new Guid().ToString();
-
-            await producer.ProduceAsync(topicName, new Message<string, string> { Key = key, Value = stringfiedMessage });
-
-            producer.Flush(TimeSpan.FromSeconds(2));
-        }
 
     }
 }

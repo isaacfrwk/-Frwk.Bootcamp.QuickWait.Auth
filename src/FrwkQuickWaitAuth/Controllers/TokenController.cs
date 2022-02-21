@@ -25,7 +25,7 @@ namespace FrwkQuickWaitAuth.Controllers
             var response = await userService.GetUser(model);
 
             if (response == null)
-                return NotFound(new {message = "Não existe usuário com essas especificações!"});
+                return NotFound(new { message = "Não existe usuário com essas especificações!"});
 
             var token = await tokenService.GenerateToken(response);
 

@@ -1,7 +1,7 @@
 ﻿using FrwkQuickWait.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace FrwkQuickWait.Data.Repositories
+namespace FrwkQuickWait.Infrastructure.Data.Repositories
 {
     public abstract class RepositoryBase<T> : IDisposable, IRepositoryBase<T> where T : class
     {
@@ -27,9 +27,10 @@ namespace FrwkQuickWait.Data.Repositories
            context.SaveChanges();
         }
 
-        public async Task<T> GetById(int id)
-             => await DbSet.FindAsync(id);
-        
+        public virtual async Task<T> GetById(int id)
+        {
+            return await DbSet.FindAsync(id);
+        }
 
         public virtual void Delete(T obj)
         {

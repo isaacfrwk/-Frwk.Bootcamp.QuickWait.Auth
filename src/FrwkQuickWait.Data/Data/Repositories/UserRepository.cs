@@ -1,18 +1,15 @@
-﻿using FrwkQuickWait.Data.Context;
-using FrwkQuickWait.Domain.Entities;
+﻿using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Domain.Interfaces.Repositories;
+using FrwkQuickWait.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace FrwkQuickWait.Data.Repositories
+namespace FrwkQuickWait.Infrastructure.Data.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         private readonly ApplicationDbContext dbContext;
         public UserRepository(ApplicationDbContext context) : base(context)
-        {
-            this.dbContext = context;
-        }
+           =>  this.dbContext = context;
 
         public async Task<User> Get(string username, string password)
         {

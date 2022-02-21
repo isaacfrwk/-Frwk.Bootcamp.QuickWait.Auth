@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkQuickWait.Domain", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkQuickWait.Service", "src\FrwkQuickWait.Service\FrwkQuickWait.Service.csproj", "{1EDFE92E-D33F-4FB7-96BA-4E3063A9BB03}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkQuickWait.Data", "src\FrwkQuickWait.Data\FrwkQuickWait.Data.csproj", "{E705355B-2386-4220-B77B-04ACB89528CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkQuickWait.Infrastructure", "src\FrwkQuickWait.Data\FrwkQuickWait.Infrastructure.csproj", "{E705355B-2386-4220-B77B-04ACB89528CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

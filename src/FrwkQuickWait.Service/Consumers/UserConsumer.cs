@@ -2,6 +2,7 @@
 using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Domain.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -13,22 +14,22 @@ namespace FrwkQuickWait.Service.Consumers
         private readonly IServiceProvider serviceProvider;
         private readonly string topicName;
         private readonly ConsumerConfig consumerConfig;
-        public UserConsumer(IServiceProvider serviceProvider)
+        private readonly IConfiguration _configuration;
+        public UserConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             this.serviceProvider = serviceProvider;
             this.topicName = Topics.topicNameUser;
+            _configuration = configuration;
 
             this.consumerConfig = new ConsumerConfig
             {
-                //Configuração do serviço cloudkarafka
-                //BootstrapServers = CloudKarafka.Brokers,
                 //SaslUsername = CloudKarafka.Username,
                 //SaslPassword = CloudKarafka.Password,
                 //SaslMechanism = SaslMechanism.ScramSha256,
                 //SecurityProtocol = SecurityProtocol.SaslSsl,
                 //EnableSslCertificateVerification = false,
 
-                BootstrapServers = Settings.Kafkahost,
+                BootstrapServers = _configuration.GetSection("Kafka")["Host"],
                 GroupId = $"{topicName}-group-0",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
@@ -49,14 +50,9 @@ namespace FrwkQuickWait.Service.Consumers
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    try
-                    {
-                        var consumeResult = consumer.Consume(stoppingToken);
+                    var consumeResult = consumer.Consume(stoppingToken);
 
-                        Task.Run(async () => { await InvokeService(consumeResult); }, stoppingToken);
-                    }
-                    catch (ConsumeException ex)
-                    { }
+                    Task.Run(async () => { await InvokeService(consumeResult); }, stoppingToken);
                 }
             }
             catch (OperationCanceledException ex)

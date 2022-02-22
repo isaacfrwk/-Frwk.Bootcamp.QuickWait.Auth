@@ -20,8 +20,12 @@ namespace FrwkQuickWait.Infrastructure.IOC
                 .AddScoped<IProduceService, ProducerService>();
 
         public static IServiceCollection AddHosted(this IServiceCollection services)
-             => services
+        {
+            services
                 .AddHostedService<UserConsumer>()
                 .AddHostedService<AuthConsumer>();
+
+            return services;
+        }
     }
 }

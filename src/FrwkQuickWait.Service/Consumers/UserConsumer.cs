@@ -14,12 +14,10 @@ namespace FrwkQuickWait.Service.Consumers
         private readonly IServiceProvider serviceProvider;
         private readonly string topicName;
         private readonly ConsumerConfig consumerConfig;
-        private readonly IConfiguration _configuration;
-        public UserConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
+        public UserConsumer(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.topicName = Topics.topicNameUser;
-            _configuration = configuration;
 
             this.consumerConfig = new ConsumerConfig
             {
@@ -29,7 +27,7 @@ namespace FrwkQuickWait.Service.Consumers
                 //SecurityProtocol = SecurityProtocol.SaslSsl,
                 //EnableSslCertificateVerification = false,
 
-                BootstrapServers = _configuration.GetSection("Kafka")["Host"],
+                BootstrapServers = Settings.Kafkahost,
                 GroupId = $"{topicName}-group-0",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
@@ -50,9 +48,15 @@ namespace FrwkQuickWait.Service.Consumers
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var consumeResult = consumer.Consume(stoppingToken);
+                    try
+                    {
+                        var consumeResult = consumer.Consume(stoppingToken);
 
-                    Task.Run(async () => { await InvokeService(consumeResult); }, stoppingToken);
+                        Task.Run(async () => { await InvokeService(consumeResult); }, stoppingToken);
+                    }
+                    catch (ConsumeException ex)
+                    { }
+
                 }
             }
             catch (OperationCanceledException ex)

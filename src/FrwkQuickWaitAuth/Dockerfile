@@ -7,7 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
-COPY ["../src/FrwkQuickWait.Data/FrwkQuickWait.Data.csproj", "FrwkQuickWait.Data/"]
+COPY ["../src/FrwkQuickWait.Infrastructure/FrwkQuickWait.Infrastructure.csproj", "FrwkQuickWait.Data/"]
 COPY ["../src/FrwkQuickWait.Service/FrwkQuickWait.Service.csproj", "FrwkQuickWait.Service/"]
 COPY ["../src/FrwkQuickWait.Domain/FrwkQuickWait.Domain.csproj", "FrwkQuickWait.Domain/"]
 RUN dotnet restore "src/FrwkQuickWaitAuth/FrwkQuickWaitAuth.csproj"

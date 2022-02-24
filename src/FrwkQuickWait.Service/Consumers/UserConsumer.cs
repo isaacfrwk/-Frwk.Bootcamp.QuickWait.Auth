@@ -14,20 +14,16 @@ namespace FrwkQuickWait.Service.Consumers
         private readonly IServiceProvider serviceProvider;
         private readonly string topicName;
         private readonly ConsumerConfig consumerConfig;
-        public UserConsumer(IServiceProvider serviceProvider)
+        private readonly IConfiguration _configuration;
+        public UserConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             this.serviceProvider = serviceProvider;
             this.topicName = Topics.topicNameUser;
+            _configuration = configuration;
 
             this.consumerConfig = new ConsumerConfig
             {
-                //SaslUsername = CloudKarafka.Username,
-                //SaslPassword = CloudKarafka.Password,
-                //SaslMechanism = SaslMechanism.ScramSha256,
-                //SecurityProtocol = SecurityProtocol.SaslSsl,
-                //EnableSslCertificateVerification = false,
-
-                BootstrapServers = Settings.Kafkahost,
+                BootstrapServers = _configuration.GetSection("Kafka")["host"],
                 GroupId = $"{topicName}-group-0",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };

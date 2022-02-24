@@ -2,6 +2,7 @@
 using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Domain.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace FrwkQuickWait.Service.Services
@@ -10,13 +11,15 @@ namespace FrwkQuickWait.Service.Services
     {
         private readonly ClientConfig cloudConfig;
         private readonly string topicName;
-        public ProducerService() 
+        private readonly IConfiguration _configuration;
+        public ProducerService(IConfiguration configuration) 
         {
             this.topicName = Topics.topicNameAuthResponse;
+            _configuration = configuration;
 
             cloudConfig = new ClientConfig
             {
-                BootstrapServers = Settings.Kafkahost
+                BootstrapServers = _configuration.GetSection("Kafka")["host"]
             };
         }
 

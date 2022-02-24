@@ -1,6 +1,6 @@
 ﻿using FrwkQuickWait.Domain.Entities;
 
-namespace FrwkQuickWait.Domain.Interfaces.Repositories
+namespace FrwkQuickWait.Application.Interfaces
 {
     public interface IUserRepository : IRepositoryBase<User>
     {

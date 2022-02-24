@@ -1,7 +1,7 @@
-﻿using FrwkQuickWait.Domain.Constants;
+﻿using FrwkQuickWait.Application.Interfaces;
+using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Repositories;
-using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Domain.Interfaces;
 using FrwkQuickWait.Service.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

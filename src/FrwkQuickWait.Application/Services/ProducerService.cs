@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 

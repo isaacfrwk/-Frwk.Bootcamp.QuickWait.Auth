@@ -1,5 +1,5 @@
-﻿using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Repositories;
+﻿using FrwkQuickWait.Application.Interfaces;
+using FrwkQuickWait.Domain.Entities;
 using FrwkQuickWait.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 

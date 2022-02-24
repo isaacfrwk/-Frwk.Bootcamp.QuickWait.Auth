@@ -1,4 +1,4 @@
-﻿using FrwkQuickWait.Domain.Interfaces.Repositories;
+﻿using FrwkQuickWait.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FrwkQuickWait.Infrastructure.Data.Repositories

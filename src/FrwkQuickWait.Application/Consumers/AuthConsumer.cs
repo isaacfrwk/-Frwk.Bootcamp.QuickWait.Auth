@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using FrwkQuickWait.Domain.Constants;
 using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,12 +24,6 @@ namespace FrwkQuickWait.Service.Consumers
             this.consumerConfig = new ConsumerConfig
             {
                 BootstrapServers = _configuration.GetSection("Kafka")["host"],
-                //BootstrapServers = CloudKarafka.Brokers,
-                //SaslUsername = CloudKarafka.Username,
-                //SaslPassword = CloudKarafka.Password,
-                //SaslMechanism = SaslMechanism.ScramSha256,
-                //SecurityProtocol = SecurityProtocol.SaslSsl,
-                //EnableSslCertificateVerification = false,
                 GroupId = $"{topicName}-group-1",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };

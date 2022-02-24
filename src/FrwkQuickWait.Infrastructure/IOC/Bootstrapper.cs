@@ -1,6 +1,6 @@
-﻿using FrwkQuickWait.Infrastructure.Data.Repositories;
-using FrwkQuickWait.Domain.Interfaces.Repositories;
-using FrwkQuickWait.Domain.Interfaces.Services;
+﻿using FrwkQuickWait.Application.Interfaces;
+using FrwkQuickWait.Domain.Interfaces;
+using FrwkQuickWait.Infrastructure.Data.Repositories;
 using FrwkQuickWait.Service.Consumers;
 using FrwkQuickWait.Service.Services;
 using Microsoft.Extensions.DependencyInjection;

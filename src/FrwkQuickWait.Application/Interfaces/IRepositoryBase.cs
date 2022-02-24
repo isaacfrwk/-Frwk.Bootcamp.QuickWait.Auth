@@ -1,4 +1,4 @@
-﻿namespace FrwkQuickWait.Domain.Interfaces.Repositories
+﻿namespace FrwkQuickWait.Application.Interfaces
 {
     public interface IRepositoryBase<T> where T : class
     {

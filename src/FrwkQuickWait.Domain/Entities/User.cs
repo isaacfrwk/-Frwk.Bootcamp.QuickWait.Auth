@@ -4,6 +4,7 @@ namespace FrwkQuickWait.Domain.Entities
 {
     public class User : EntityBase
     {
+        public User() { Role = "manager"; }
         public string? Username { get; set; }
         public string? Password { get; set; }
         [ValidateNever]

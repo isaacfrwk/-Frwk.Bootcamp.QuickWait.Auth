@@ -1,6 +1,6 @@
-﻿using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Repositories;
-using FrwkQuickWait.Domain.Interfaces.Services;
+﻿using FrwkQuickWait.Application.Interfaces;
+using FrwkQuickWait.Domain.Entities;
+using FrwkQuickWait.Domain.Interfaces;
 
 namespace FrwkQuickWait.Service.Services
 {

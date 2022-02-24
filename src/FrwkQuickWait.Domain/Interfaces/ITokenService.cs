@@ -1,6 +1,6 @@
 ﻿using FrwkQuickWait.Domain.Entities;
 
-namespace FrwkQuickWait.Domain.Interfaces.Services
+namespace FrwkQuickWait.Domain.Interfaces
 {
     public interface ITokenService
     {

@@ -1,6 +1,4 @@
-using FluentValidation.AspNetCore;
 using FrwkQuickWait.Infrastructure.IOC;
-using FrwkQuickWait.Service.Validators;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
@@ -9,8 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
-    .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddServices();
 builder.Services.AddRepositories();

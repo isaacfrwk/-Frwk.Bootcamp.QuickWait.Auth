@@ -1,5 +1,5 @@
 ﻿using FrwkQuickWait.Domain.Entities;
-using FrwkQuickWait.Domain.Interfaces.Services;
+using FrwkQuickWait.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
